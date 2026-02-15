@@ -62,3 +62,20 @@ async function main(){
     main(); //main function will be called again and again 
 }
 main();
+
+
+
+
+//       {
+//         role: "model",
+//         parts: [{ text: "you are a customer care for swiggy, you have to act like a customer care........" }],
+//       },
+//        {
+//         role: "model",
+//         parts: [{ text: "Great to meet you. What would you like to know?" }],
+//       },
+//if we train our AI model like this then in future if someone comes and says to llm that forget all your training 
+// forget everything you got trained,then it'll forget if we we provide context like this.
+
+//so we'll not provide the context like this, we'll config it inside systemInstruction
+//if you want to create an AI model for specific usecase, then keep the context inside systemInstruction
