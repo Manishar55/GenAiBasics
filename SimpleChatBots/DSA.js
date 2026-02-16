@@ -31,7 +31,7 @@
 import readlineSync from 'readline-sync';
 import { GoogleGenAI } from "@google/genai";
 
-const ai = new GoogleGenAI({ apiKey: "AIzaSyBx8egCDAioV6MvEofnXeefelHWEVylKWI"});
+const ai = new GoogleGenAI({ apiKey: "......"});
 
 const chat = ai.chats.create({  //this code will keep the history, not the llm 
     model: "gemini-3-flash-preview",
