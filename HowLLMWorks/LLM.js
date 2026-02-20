@@ -34,31 +34,31 @@
 
 //if we provide context (the chat history) it will remember it
 
-// import { GoogleGenAI } from "@google/genai";
+import { GoogleGenAI } from "@google/genai";
 
-// const ai = new GoogleGenAI({ apiKey: "AIzaSyBeJ368RKopqUE04ojd8lm1jfjVWZ0oYJM"});
+const ai = new GoogleGenAI({ apiKey: "AIzaSyBeJ368RKopqUE04ojd8lm1jfjVWZ0oYJM"});
 
-// async function main() {
-//   const response = await ai.models.generateContent({
-//     model: "gemini-3-flash-preview",
-//     contents: [
-//       {
-//         role: "user",
-//         parts: [{ text: "What is my name" }],
-//       },
-//        {
-//         role: "model",
-//         parts: [{ text: "Great to meet you. What would you like to know?" }],
-//       },
-//       {
-//         role: "user",
-//         parts: [{ text: "My name is Manisha" }],
-//       },
+async function main() {
+  const response = await ai.models.generateContent({
+    model: "gemini-3-flash-preview",
+    contents: [
+      {
+        role: "user",
+        parts: [{ text: "What is my name" }],
+      },
+       {
+        role: "model",
+        parts: [{ text: "Great to meet you. What would you like to know?" }],
+      },
+      {
+        role: "user",
+        parts: [{ text: "My name is Manisha" }],
+      },
      
-//     ],
-//   });
-//   console.log(response.text);
-// }
+    ],
+  });
+  console.log(response.text);
+}
 
-// await main();
+await main();
 
