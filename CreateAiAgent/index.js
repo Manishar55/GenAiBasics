@@ -4,7 +4,7 @@
 
 //so for this we'll take LLM help, we'll give all the function to the llm, and we'll ask for a indicator
 //first we will guid the llm that we want the output in json format, as llm can't run codes, so will ask for the function
-//which we need to call like
+//and the arguments which we need to call... like:
 // {                                    {
 //      name:"getCryptoPrice",              name: "sum",
 //      args; {coin: "bitcoin"}             args: {a: 5, b: 8}
@@ -23,7 +23,7 @@ import readLineSync from 'readline-sync';
 import { GoogleGenAI } from "@google/genai";
 import dotenv from "dotenv";
 
-dotenv.config({ path: "../.env" });
+dotenv.config({ path: "../.env" }); 
 
 
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY});
@@ -54,6 +54,7 @@ async function getCryptoPrice({ coin }) {
     return data;
 }
 
+//define the function declaration for model, we are telling the model about the sum function, what it does..
 const cryptoDeclaration = {
     name: 'getCryptoPrice',
     description: "Get the current price of any crypto currency like bitcoin",
@@ -109,11 +110,13 @@ const availableTools = {
     getCryptoPrice: getCryptoPrice
 }
 async function runAgent(userProblem) {
-    History.push({
+    
+    History.push({ //pushing the problem in history
         role: 'user',
         parts: [{ text: userProblem }]
     });
 
+    //there may be multiple function calls
     while(true) {
         const response = await ai.models.generateContent({
             model: "gemini-2.5-flash",
@@ -140,14 +143,14 @@ async function runAgent(userProblem) {
         //      args: {num: 11}
         //    }
         //  ]   
-        if (response.functionCalls && response.functionCalls.length > 0) {
+        if (response.functionCalls && response.functionCalls.length > 0) { //check if there are function calls
 
             console.log(response.functionCalls[0]);  //{ name: 'prime', args: { num: 13 } }
                                                      //{ name: 'sum', args: { a: 2, b: 6 } }       
             const { name, args } = response.functionCalls[0];
 
-            const funCall = availableTools[name];
-            const result = await funCall(args);
+            const funCall = availableTools[name]; //it will return the function we need to call
+            const result = await funCall(args); //we'll store the result of function after calling it, ex: sum(args)
 
             const functionResponsePart = {  //function response name and result
                 name: name,
@@ -177,8 +180,8 @@ async function runAgent(userProblem) {
             });
 
         }
-        else {
-            History.push({
+        else { //if there is no function call that means it is the final response, we'll print it
+            History.push({  //we will push the response in history also
                 role: 'model',
                 parts: [{ text: response.text }]
             })
